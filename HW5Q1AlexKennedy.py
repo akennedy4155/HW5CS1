@@ -31,6 +31,8 @@ def analyzeSMSes(inputFilename):
     totalHamWords = sum(hamWordCounts.values())
     #print top 10 frequent ham words
     hamTuples = list(zip(hamWordCounts.keys(), hamWordCounts.values()))
+    frequencies = [frequency for  in hamTuples]
+    hamTuplesForTable = []
     sortedHamTuples = sorted(hamTuples, key = lambda item: item[1],reverse = True)
     print("The 10 most common words in the ham messages (any number of characters) are:")
     for wordNumber in range(10):
