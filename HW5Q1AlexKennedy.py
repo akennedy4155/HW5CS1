@@ -29,7 +29,7 @@ def analyzeSMSes(inputFilename):
     print()
     totalSpamWords = sum(spamWordCounts.values())
     totalHamWords = sum(hamWordCounts.values())
-    #print top 10 frequent ham words                       
+    #print top 10 frequent ham words
     hamTuples = list(zip(hamWordCounts.keys(), hamWordCounts.values()))
     sortedHamTuples = sorted(hamTuples, key = lambda item: item[1],reverse = True)
     print("The 10 most common words in the ham messages (any number of characters) are:")
@@ -38,16 +38,23 @@ def analyzeSMSes(inputFilename):
         hamFrequency = '{n:.{d}f}'.format(n=(ham[1] / totalHamWords),d = 4)
         print((wordNumber + 1),".)",sep = '', end = ' ')
         print(ham[0]," - ",ham[1]," Word Frequency: ",hamFrequency,sep='')
-        
-    hamTuplesMoreThan3Letters = [item for item in hamTuples if len(item[0]) > 5]
-    sortedTuplesGreater3 = sorted(hamTuplesMoreThan3Letters,key = lambda item: item[1], reverse = True)
-    print(sortedTuplesGreater3[:10])
-    print(hamTuples[:10])
-    sortedHamTuples = sorted(hamTuples, key = lambda item: item[1],reverse = True)
-    print(sortedHamTuples[:10])
+
+    #print the top 10 information about words in a pretty table format
+    template = "{0:6}|{1:10}|{2:14}"
+    print (template.format("WORD", "WORD COUNT","WORD FREQUENCY"))
+    print("================================")
+    for rec in sortedHamTuples[:10]: 
+        print (template.format(*rec))
+        print("--------------------------------")
+    #hamTuplesMoreThan3Letters = [item for item in hamTuples if len(item[0]) > 5]
+    #sortedTuplesGreater3 = sorted(hamTuplesMoreThan3Letters,key = lambda item: item[1], reverse = True)
+    #print(sortedTuplesGreater3[:10])
+    #print(hamTuples[:10])
+    #sortedHamTuples = sorted(hamTuples, key = lambda item: item[1],reverse = True)
+    #print(sortedHamTuples[:10])
     #sortedHamWordCounts = sorted(hamWordCounts, 
     #print(sortedHamWordCounts,spamWordCounts)
-    print(SMSTextList[:10])
+    #print(SMSTextList[:10])
 
 #makes a list of the SMS messages, each member of the list is a message.
 def getSMSList(filename):
