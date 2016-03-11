@@ -55,7 +55,11 @@ def analyzeSMSes(inputFilename):
         spamTableFormat.append((spamTuples[index][0],spamTuples[index][1],spamFrequency[index],spamMessageFrequency[index]))
     template = "| {0:6} | {1:10} | {2:14} | {3:17} |"
     printTable(template,spamTableFormat)
-
+    
+    print("\nSPAM Words (containing more than 3 characters):\n")
+    spamTuplesMoreThan3Letters = [item for item in spamTableFormat if len(item[0]) > 3]
+    printTable(template,spamTuplesMoreThan3Letters)
+    
     print("\nHAM Words:\nWord: the word associated with the stats\nWord Count: amount of times that word occurs in total throughout the text messages inputted\nWord Frequency: the percentage of how often the word occurs\nMessage Frequency: the percentage of how many messages contain this word\n") 
     #populate ham frequency list in order of sorted list
     for item in hamTuples:
@@ -77,18 +81,20 @@ def analyzeSMSes(inputFilename):
     hamTuplesMoreThan3Letters = [item for item in hamTableFormat if len(item[0]) > 3]
     printTable(template,hamTuplesMoreThan3Letters)
 
-    print("\nSPAM Words (containing more than 3 characters):\n")
-    spamTuplesMoreThan3Letters = [item for item in spamTableFormat if len(item[0]) > 3]
-    printTable(template,spamTuplesMoreThan3Letters)
-
-    #sortedTuplesGreater3 = sorted(hamTuplesMoreThan3Letters,key = lambda item: item[1], reverse = True)
-    #print(sortedTuplesGreater3[:10])
-    #print(hamTuples[:10])
-    #sortedHamTuples = sorted(hamTuples, key = lambda item: item[1],reverse = True)
-    #print(sortedHamTuples[:10])
-    #sortedHamWordCounts = sorted(hamWordCounts, 
-    #print(sortedHamWordCounts,spamWordCounts)
-    #print(SMSTextList[:10])
+    #find the average length of words in spam messages compared to ham messages
+    hamWordLengthAverage = 0
+    spamWordLengthAverage = 0
+    for message in hamTextList:
+        for word in message:
+            hamWordLengthAverage += len(word)
+    for message in spamTextList:
+        for word in message:
+            spamWordLengthAverage += len(word)
+    hamWordLengthAverage = hamWordLengthAverage / totalHamWords
+    spamWordLengthAverage = spamWordLengthAverage / totalSpamWords
+    print("\nAverage length of words in message:")
+    print("HAM:",'{n:.{d}f}'.format(n=hamWordLengthAverage,d=2))
+    print("SPAM:",'{n:.{d}f}'.format(n=spamWordLengthAverage,d=2))
 
 #prints a table from the tuples passed in in table format
 def printTable(template,tuples):
